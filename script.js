@@ -1,10 +1,11 @@
 function Game() {
-    this.boardArr = [
+    this.initialBoardArr = [
         [1, 1, 1, 1],
         [0, 0, 0, 0],
         [0, 0, 0, 0],
         [0, 0, 0, 0]
     ]
+    this.boardArr = null
     this.playerPosition = {
         x: 0,
         y: 1
@@ -49,6 +50,7 @@ Game.prototype.renderSingleCell = function (cell, rowDiv) {
 }
 
 Game.prototype.composeBoard = function () {
+    this.boardArr = JSON.parse(JSON.stringify(this.initialBoardArr))
     this.boardArr[this.playerPosition.y][this.playerPosition.x] = 'P'
 }
 
@@ -60,7 +62,40 @@ Game.prototype.startListeningToArrows = function () {
                 case 'ArrowUp':
                     event.preventDefault()
                     this.checkIfMoveIsAvailable(0, -1)
+                    break
+                case 'ArrowDown':
+                    event.preventDefault()
+                    this.checkIfMoveIsAvailable(0, 1)
+                    break
+                case 'ArrowLeft':
+                    event.preventDefault()
+                    this.checkIfMoveIsAvailable(-1, 0)
+                    break
+                case 'ArrowRight':
+                    event.preventDefault()
+                    this.checkIfMoveIsAvailable(1, 0)
+                    break
             }
         }
     )
+}
+
+Game.prototype.checkIfMoveIsAvailable = function (deltaX, deltaY) {
+    const newPlayerPostition = {
+        x: this.playerPosition.x + deltaX,
+        y: this.playerPosition.y + deltaY
+    }
+
+    if (
+        this.boardArr[newPlayerPostition.y] &&
+        this.boardArr[newPlayerPostition.y][newPlayerPostition.x]
+    ) {
+        this.move(newPlayerPostition)
+    }
+}
+
+Game.prototype.move = function(newPlayerPostition) {
+    this.playerPosition = newPlayerPostition
+
+    this.render()
 }
