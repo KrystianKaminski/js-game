@@ -55,6 +55,12 @@ Game.prototype.composeBoard = function () {
 Game.prototype.startListeningToArrows = function () {
     window.addEventListener(
         'keydown',
-        event => console.log(event.key)
+        event => {
+            switch(event.key) {
+                case 'ArrowUp':
+                    event.preventDefault()
+                    this.checkIfMoveIsAvailable(0, -1)
+            }
+        }
     )
 }
