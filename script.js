@@ -24,7 +24,16 @@ Game.prototype.render = function () {
 }
 
 Game.prototype.renderSingleCell = function (cell) {
-    console.log(cell);
+    const cellDiv = document.createElement('div')
+
+    cellDiv.style.width = '20px'
+    cellDiv.style.height = '20px'
+
+    if (cell === 0) cellDiv.style.backgroundColor = 'black'
+    if (cell === 1) cellDiv.style.backgroundColor = 'gray'
+    if (cell === 'P') cellDiv.style.backgroundColor = 'red'
+
+    document.body.appendChild(cellDiv)
 }
 
 Game.prototype.composeBoard = function () {
